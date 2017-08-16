@@ -25,12 +25,6 @@ RUN echo 'mysql-server mysql-server/root_password password CGRateS.org' | debcon
 #install glide
 && GOROOT=/root/go GOPATH=/root/code /root/go/bin/go get github.com/Masterminds/glide \
 
-#install oh-my-zsh
-&& TERM=xterm sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"; exit 0 \
-
-# change shell for tmux
-&& chsh -s /usr/bin/zsh \
-
 # cleanup
 && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
 
@@ -50,9 +44,7 @@ RUN echo 'mysql-server mysql-server/root_password password CGRateS.org' | debcon
 && ln -s /root/code/bin/cgr-engine /usr/bin/ \
 && ln -s /root/code/bin/cgr-loader /usr/bin/ \
 && ln -s /root/code/src/github.com/cgrates/cgrates/data /usr/share/cgrates \
-
-# prepare zshrc
-&& echo 'export GOROOT=/root/go; export GOPATH=/root/code; export PATH=$GOROOT/bin:$GOPATH/bin:$PATH'>>/root/.zshrc
+&& echo 'export GOROOT=/root/go; export GOPATH=/root/code; export PATH=$GOROOT/bin:$GOPATH/bin:$PATH'>>/root/.bashrc
 
 COPY entrypoint.sh /entrypoint.sh
 
