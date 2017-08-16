@@ -1,3 +1,5 @@
+#!/bin/bash
+
 GOROOT=/root/go
 GOPATH=/root/code
 
