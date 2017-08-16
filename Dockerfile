@@ -46,7 +46,7 @@ RUN echo 'mysql-server mysql-server/root_password password CGRateS.org' | debcon
 && ln -s /root/code/src/github.com/cgrates/cgrates/data /usr/share/cgrates \
 && echo 'export GOROOT=/root/go; export GOPATH=/root/code; export PATH=$GOROOT/bin:$GOPATH/bin:$PATH'>>/root/.bashrc
 
-COPY entrypoint.sh /entrypoint.sh
+COPY entrypoint.sh /opt/
 
 # set start command
-CMD entrypoint.sh
+ENTRYPOINT ["/opt/entrypoint.sh"]
