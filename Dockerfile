@@ -4,8 +4,14 @@ MAINTAINER Lorenzo Mangani, lorenzo.mangani@gmail.com
 # set mysql password
 RUN echo 'mysql-server mysql-server/root_password password CGRateS.org' | debconf-set-selections && echo 'mysql-server mysql-server/root_password_again password CGRateS.org' | debconf-set-selections \
 
+&& echo "deb http://repo.mysql.com/apt//debian/ jessie mysql-apt-config" >> /etc/apt/sources.list && \
+  echo "deb http://repo.mysql.com/apt//debian/ jessie mysql-5.7" >> /etc/apt/sources.list && \
+  echo "deb http://repo.mysql.com/apt//debian/ jessie connector-python-2.0 connector-python-2.1 router-2.0 mysql-utilities-1.5 mysql-tools" >> /etc/apt/sources.list && \
+  apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 8C718D3B5072E1F5 && apt-get update && apt-get -y --no-install-recommends install mysql-community-server libmysqlclient20 && \
+  service mysql start \
+
 # install dependencies
-&& apt-get -y update && apt-get -y install git redis-server mysql-server python-pycurl python-mysqldb sudo wget vim zsh tmux rsyslog ngrep curl \
+&& apt-get -y update && apt-get -y install git redis-server python-pycurl python-mysqldb sudo wget vim zsh tmux rsyslog ngrep curl \
 
 # add cgrates user
 && useradd -c CGRateS -d /var/run/cgrates -s /bin/false -r cgrates \
