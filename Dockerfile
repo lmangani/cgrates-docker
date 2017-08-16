@@ -20,7 +20,7 @@ RUN echo 'mysql-server mysql-server/root_password password CGRateS.org' | debcon
 && useradd -c CGRateS -d /var/run/cgrates -s /bin/false -r cgrates \
 
 # install golang
-&& wget -qO- https://storage.googleapis.com/golang/go1.7.linux-amd64.tar.gz | tar xzf - -C /root/ \
+&& wget -qO- https://storage.googleapis.com/golang/go1.8.linux-amd64.tar.gz | tar xzf - -C /root/ \
 
 #install glide
 && GOROOT=/root/go GOPATH=/root/code /root/go/bin/go get github.com/Masterminds/glide \
