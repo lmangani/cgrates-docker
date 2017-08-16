@@ -35,6 +35,8 @@ echo "Initializing DBs... "
 	# redis
 	sed -i 's/127.0.0.1/0.0.0.0/g' /etc/redis/redis.conf
 
+	sed -i 's/ENABLE=false/ENABLE=true/g' /etc/default/cgrates
+
 # start services
 service rsyslog start
 service redis-server start
@@ -46,6 +48,4 @@ cd /usr/share/cgrates/storage/mysql && ./setup_cgr_db.sh root CGRateS.org
 #cd /usr/share/cgrates/data/tariffplans/osips_training; cgr-loader
 
 echo "Starting CGRateS.... "
-cd /usr/share/cgrates
-cgr-engine -config_dir /usr/share/cgrates/data/conf/samples/cgradmin
-
+cgr-engine -config_dir /usr/share/cgrates/conf/samples/tutlocal/

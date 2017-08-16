@@ -36,5 +36,7 @@ RUN echo "Installing... " \
 COPY entrypoint.sh /opt/entrypoint.sh
 RUN chmod +x /opt/entrypoint.sh
 
+EXPOSE 2012 
+
 # set start command
 ENTRYPOINT ["/opt/entrypoint.sh"]
