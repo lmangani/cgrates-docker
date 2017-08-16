@@ -1,6 +1,9 @@
 FROM qxip/docker-devuan:latest
 MAINTAINER Lorenzo Mangani, lorenzo.mangani@gmail.com
 
+ENV LC_ALL C
+ENV DEBIAN_FRONTEND noninteractive
+
 # set mysql password
 RUN echo 'mysql-server mysql-server/root_password password CGRateS.org' | debconf-set-selections && echo 'mysql-server mysql-server/root_password_again password CGRateS.org' | debconf-set-selections \
 
