@@ -14,33 +14,33 @@ RUN echo 'mysql-server mysql-server/root_password password CGRateS.org' | debcon
 && wget -qO- https://storage.googleapis.com/golang/go1.7.linux-amd64.tar.gz | tar xzf - -C /root/ \
 
 #install glide
-&& GOROOT=/root/go GOPATH=/root/code /root/go/bin/go get github.com/Masterminds/glide
+&& GOROOT=/root/go GOPATH=/root/code /root/go/bin/go get github.com/Masterminds/glide \
 
 #install oh-my-zsh
-&& TERM=xterm sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"; exit 0
+&& TERM=xterm sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"; exit 0 \
 
 # change shell for tmux
-&& chsh -s /usr/bin/zsh
+&& chsh -s /usr/bin/zsh \
 
 # cleanup
-&& apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+&& apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
 
 # get cgrates from github
-&& mkdir -p /root/code/src/github.com/cgrates; cd /root/code/src/github.com/cgrates; git clone https://github.com/cgrates/cgrates.git
+&& mkdir -p /root/code/src/github.com/cgrates; cd /root/code/src/github.com/cgrates; git clone https://github.com/cgrates/cgrates.git \
 
 # create link to cgrates dir
-&& ln -s /root/code/src/github.com/cgrates/cgrates /root/cgr
+&& ln -s /root/code/src/github.com/cgrates/cgrates /root/cgr \
 
 # get deps
-&& cd /root/cgr; GOROOT=/root/go GOPATH=/root/code PATH=$GOROOT/bin:$GOPATH/bin:$PATH glide install
+&& cd /root/cgr; GOROOT=/root/go GOPATH=/root/code PATH=$GOROOT/bin:$GOPATH/bin:$PATH glide install \
 
 # build cgrates
-&& cd /root/cgr; GOROOT=/root/go GOPATH=/root/code PATH=$GOROOT/bin:$GOPATH/bin:$PATH ./build.sh
+&& cd /root/cgr; GOROOT=/root/go GOPATH=/root/code PATH=$GOROOT/bin:$GOPATH/bin:$PATH ./build.sh \
 
 # create links
-&& ln -s /root/code/bin/cgr-engine /usr/bin/
-&& ln -s /root/code/bin/cgr-loader /usr/bin/
-&& ln -s /root/code/src/github.com/cgrates/cgrates/data /usr/share/cgrates
+&& ln -s /root/code/bin/cgr-engine /usr/bin/ \
+&& ln -s /root/code/bin/cgr-loader /usr/bin/ \
+&& ln -s /root/code/src/github.com/cgrates/cgrates/data /usr/share/cgrates \
 
 # prepare zshrc
 && echo 'export GOROOT=/root/go; export GOPATH=/root/code; export PATH=$GOROOT/bin:$GOPATH/bin:$PATH'>>/root/.zshrc
