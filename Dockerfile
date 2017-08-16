@@ -47,6 +47,7 @@ RUN echo 'mysql-server mysql-server/root_password password CGRateS.org' | debcon
 && echo 'export GOROOT=/root/go; export GOPATH=/root/code; export PATH=$GOROOT/bin:$GOPATH/bin:$PATH'>>/root/.bashrc
 
 COPY entrypoint.sh /opt/
+RUN chmod +x /opt/entrypoint.sh
 
 # set start command
 ENTRYPOINT ["/opt/entrypoint.sh"]
