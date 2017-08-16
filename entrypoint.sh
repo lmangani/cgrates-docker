@@ -1,3 +1,6 @@
+GOROOT=/root/go
+GOPATH=/root/code
+
 # edit servers config files
 sed -i 's/127.0.0.1/0.0.0.0/g' /etc/redis/redis.conf /etc/mysql/my.cnf
 
@@ -14,6 +17,4 @@ cd /usr/share/cgrates/storage/mysql && ./setup_cgr_db.sh root CGRateS.org
 cd /root/cgr/data/tariffplans/osips_training; cgr-loader
 
 cd /root/cgr
-cgr-engine -config_dir /root/cgr/data/conf/samples/cgradmin
-
-DISABLE_AUTO_UPDATE="true" zsh
+./cgr-engine -config_dir /root/cgr/data/conf/samples/cgradmin
