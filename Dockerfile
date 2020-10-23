@@ -1,4 +1,4 @@
-FROM qxip/docker-devuan:latest
+FROM debian:9
 MAINTAINER Lorenzo Mangani, lorenzo.mangani@gmail.com
 
 ENV LC_ALL C
@@ -12,23 +12,23 @@ ENV MYSQL_MAJOR 5.7
 RUN echo "Installing... " \
 
 # install golang
-&& wget -qO- https://storage.googleapis.com/golang/go1.8.linux-amd64.tar.gz | tar xzf - -C /root/ \
+&& apt update && apt install -y wget curl gnupg2 \
+&& wget -qO- https://storage.googleapis.com/golang/go1.13.linux-amd64.tar.gz | tar xzf - -C /root/ \
 
 # MySQL
 && groupadd -r mysql && useradd -r -g mysql mysql \
 && mkdir /docker-entrypoint-initdb.d \
 && apt-key adv --keyserver ha.pool.sks-keyservers.net --recv-keys A4A9406876FCBD3C456770C88C718D3B5072E1F5 \
 && echo "deb http://repo.mysql.com/apt/debian/ jessie mysql-${MYSQL_MAJOR}" > /etc/apt/sources.list.d/mysql.list \
-&& apt-get update && apt-get install -y mysql-server libmysqlclient18 \
+&& apt-get update && apt-get install -y default-mysql-server libmysqlclient-dev \
 	&& sed -Ei 's/^(bind-address|log)/#&/' /etc/mysql/my.cnf \
 	&& echo 'skip-host-cache\nskip-name-resolve' | awk '{ print } $1 == "[mysqld]" && c == 0 { c = 1; system("cat") }' /etc/mysql/my.cnf > /tmp/my.cnf \
 	&& mv /tmp/my.cnf /etc/mysql/my.cnf \
 
 # install cgrates
-&& cd /etc/apt/sources.list.d/ \
-&& wget -O - http://apt.itsyscom.com/conf/cgrates.gpg.key|apt-key add - \
-&& wget http://apt.itsyscom.com/conf/cgrates.apt.list \
-&& apt-get update && apt-get install -y cgrates redis-server git \
+&& wget -O - http://apt.cgrates.org/apt.cgrates.org.gpg.key | apt-key add - \
+&& echo "deb http://apt.cgrates.org/debian/ nightly main" | tee /etc/apt/sources.list.d/cgrates.list \
+&& apt-get update && apt-get install -y cgrates redis-server \
 
 # cleanup
 && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
